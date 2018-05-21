@@ -18,35 +18,41 @@ inputChangedHandler = (e) => {
 };
 
 
-removeCharHandler = (event, i) => {
-  const inputArr = this.state.inputText.split('');
-  const index = inputArr.findIndex(i => {
-    return Char.char === inputArr[i];
+removeCharHandler = (event, char) => {
+  let inputArr = '';
+  inputArr += this.state.inputText;
+  inputArr = inputArr.split('');
+  console.log(inputArr);
+  inputArr = inputArr.filter(charInArr => {
+    return charInArr !== char; 
   });
 
-  inputArr.splice(index, 1);
+  inputArr = inputArr.join('');
+  document.getElementById("input").value = inputArr;
 
   this.setState({
-    inputText: inputArr.join('')
+    inputText: inputArr
   });
 };
 
 
   render() {
 
-    let inputArr = this.state.inputText.split('');
+    let inputArr = '';
+    inputArr += this.state.inputText;
+    inputArr = inputArr.split('');
 
 
     return (
       <div className="App">
-       <input type="text" name="input"
+       <input type="text" id="input"
        onChange={this.inputChangedHandler}/>
        <p>Length of text: {this.state.inputLength}</p>
        <Validation inputLength={this.state.inputLength} />
        {inputArr.map((char, i) => {
          return <Char key={i} 
          char={inputArr[i]} 
-         click={(event) => this.removeCharHandler(event, i)}/>
+         click={(event) => this.removeCharHandler(event, char)}/>
        })}
       </div>
     );
